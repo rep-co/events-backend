@@ -39,13 +39,13 @@ export const handler: Handler.Http = async (event, context) => {
       return { statusCode: 200, body: JSON.stringify(events) }
 
     case 'POST':
-      const item: EventItem = safeJsonParse(event.body)
+      const item: EventItem | undefined = safeJsonParse(event.body)
       if (!item) return { statusCode: 400, body: 'Error' }
 
       const message = addEventHandler(item)
       return { statusCode: 200, body: message }
 
     default:
-      break
+      return { statusCode: 404, body: 'Error' }
   }
 }
